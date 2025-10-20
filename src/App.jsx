@@ -28,17 +28,15 @@ function App() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ // Convertit l'objet JavaScript en une chaîne JSON
+      body: JSON.stringify({
         title: "Nouveau produit",
         price: 29.99,
         description: "Un super produit ajouté via API",
         image: "https://picsum.photos/200/300",
         category: "electronics",
-
       }),
     })
     const data = await response.json()
-    setProducts(data);
     alert(`Le produit avec l'id ${data.id} a été créé`)
   }
 
