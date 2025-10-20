@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Container } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
 import './styles/image.css';
 
 function App() {
@@ -19,8 +20,31 @@ function App() {
     fetchProduct();
   }, []);
 
+
+
+  const addProduct = async () => {
+    const response = await fetch('https://fakestoreapi.com/products', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ // Convertit l'objet JavaScript en une chaîne JSON
+        title: "Nouveau produit",
+        price: 29.99,
+        description: "Un super produit ajouté via API",
+        image: "https://picsum.photos/200/300",
+        category: "electronics",
+
+      }),
+    })
+    const data = await response.json()
+    setProducts(data);
+    alert(`Le produit avec l'id ${data.id} a été créé`)
+  }
+
   return (
     <Container className='mt-5'>
+      <Button onClick={addProduct}>Ajouter un  Produit</Button>
       <Row className="justify-content-center g-3">
         {products.map((item) => (
           <Col key={item.id} lg={3}>
