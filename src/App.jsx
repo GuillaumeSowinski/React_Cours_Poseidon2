@@ -133,7 +133,7 @@ function App() {
   }
 
 
-  if (error) return <p>{error}</p>;
+  if (error) return alert(error);
   if (loading) return <p>Chargement...</p>;
 
   return (
