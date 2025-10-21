@@ -9,77 +9,132 @@ import './styles/image.css';
 
 function App() {
   const [products, setProducts] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchProduct() {
-      const response = await fetch('https://fakestoreapi.com/products');
-      const data = await response.json();
-      setProducts(data);
-    };
-
+      try {
+        const response = await fetch('https://fakestoreapi.com/products');
+        if (!response.ok) {
+          throw new Error(`Erreur HTTP: ${response.statusText ? response.statusText + ' - ' :
+            ''}${response.status}`);
+        }
+        const data = await response.json();
+        setProducts(data);
+      } catch (err) {
+        setError("Une erreur est survenue lors de la récupération des produits.");
+        console.error(err.message);
+      } finally {
+        setLoading(false)
+      };
+    }
     fetchProduct();
   }, []);
 
 
 
+
   const addProduct = async () => {
-    const response = await fetch('https://fakestoreapi.com/products', {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title: "Nouveau produit",
-        price: 29.99,
-        description: "Un super produit ajouté via API",
-        image: "https://picsum.photos/200/300",
-        category: "electronics",
-      }),
-    })
-    const data = await response.json()
-    alert(`Le produit avec l'id ${data.id} a été créé`)
+    try {
+      const response = await fetch('https://fakestoreapi.com/products', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: "Nouveau produit",
+          price: 29.99,
+          description: "Un super produit ajouté via API",
+          image: "https://picsum.photos/200/300",
+          category: "electronics",
+        }),
+      })
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP: ${response.statusText ? response.statusText + ' - ' :
+          ''}${response.status}`);
+      }
+      const data = await response.json()
+      alert(`Le produit avec l'id ${data.id} a été créé`)
+    } catch (err) {
+      setError("Une erreur est survenue lors de l'ajout d'un produit.");
+      console.log(err.message)
+    }
   }
 
 
   const modifyFullProduct = async (id) => {
-    const response = await fetch(`https://fakestoreapi.com/products/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title: "Produit mis à jour",
-        price: 49.99,
-        description: "Description mise à jour",
-        image: "https://picsum.photos/200/300",
-        category: "electronics",
-      }),
-    })
-    const data = await response.json()
-    alert(`Le produit avec l'id ${data.id} a été modifié`)
+    try {
+      const response = await fetch(`https://fakestoreapi.com/products/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: "Produit mis à jour",
+          price: 49.99,
+          description: "Description mise à jour",
+          image: "https://picsum.photos/200/300",
+          category: "electronics",
+        }),
+      })
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP: ${response.statusText ? response.statusText + ' - ' :
+          ''}${response.status}`);
+      }
+      const data = await response.json()
+      alert(`Le produit avec l'id ${data.id} a été modifié`)
+    } catch (err) {
+      setError("Une erreur est survenue lors de la modification du produit.");
+      console.log(err.message)
+    }
   }
 
+
   const modifyProduct = async (id) => {
-    const response = await fetch(`https://fakestoreapi.com/products/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        price: 39.99,
-      }),
-    })
-    const data = await response.json()
-    alert(`Le prix du produit avec l'id ${data.id} a été modifié`)
+    try {
+      const response = await fetch(`https://fakestoreapi.com/products/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          price: 39.99,
+        }),
+      })
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP: ${response.statusText ? response.statusText + ' - ' :
+          ''}${response.status}`);
+      }
+      const data = await response.json()
+      alert(`Le prix du produit avec l'id ${data.id} a été modifié`)
+    } catch (err) {
+      setError("Une erreur est survenue lors de la modification d'un produit.");
+      console.log(err.message)
+    }
+
   }
 
   const deleteProduct = async (id) => {
-    const response = await fetch(`https://fakestoreapi.com/products/${id}`, {
-      method: "DELETE",
-    })
-    const data = await response.json()
-    alert(`Le produit avec l'id ${data.id} a été supprimé`)
+    try {
+      const response = await fetch(`https://fakestoreapi.com/products/${id}`, {
+        method: "DELETE",
+      })
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP: ${response.statusText ? response.statusText + ' - ' :
+          ''}${response.status}`);
+      }
+      const data = await response.json()
+      alert(`Le produit avec l'id ${data.id} a été supprimé`)
+    } catch (err) {
+      setError("Une erreur est survenue lors de la suppression du produit.");
+      console.log(err.message)
+    }
   }
+
+
+  if (error) return <p>{error}</p>;
+  if (loading) return <p>Chargement...</p>;
 
   return (
     <Container className='mt-5'>
