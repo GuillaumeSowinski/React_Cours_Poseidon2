@@ -57,15 +57,15 @@ function App() {
       const data = await response.json()
       alert(`Le produit avec l'id ${data.id} a été créé`)
     } catch (err) {
-      setError("Une erreur est survenue lors de l'ajout d'un produit.");
-      console.log(err.message)
+      alert("Une erreur est survenue lors de l'ajout d'un produit.");
+      console.error(err.message)
     }
   }
 
 
   const modifyFullProduct = async (id) => {
     try {
-      const response = await fetch(`https://fakestoreapi.com/products/${id}`, {
+      const response = await fetch(`https://fakestoreapi.com/products/${id}a`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -85,8 +85,8 @@ function App() {
       const data = await response.json()
       alert(`Le produit avec l'id ${data.id} a été modifié`)
     } catch (err) {
-      setError("Une erreur est survenue lors de la modification du produit.");
-      console.log(err.message)
+      alert("Une erreur est survenue lors de la modification du produit.");
+      console.error(err.message)
     }
   }
 
@@ -109,8 +109,8 @@ function App() {
       const data = await response.json()
       alert(`Le prix du produit avec l'id ${data.id} a été modifié`)
     } catch (err) {
-      setError("Une erreur est survenue lors de la modification d'un produit.");
-      console.log(err.message)
+      alert("Une erreur est survenue lors de la modification d'un produit.");
+      console.error(err.message)
     }
 
   }
@@ -127,13 +127,13 @@ function App() {
       const data = await response.json()
       alert(`Le produit avec l'id ${data.id} a été supprimé`)
     } catch (err) {
-      setError("Une erreur est survenue lors de la suppression du produit.");
-      console.log(err.message)
+      alert("Une erreur est survenue lors de la suppression du produit.");
+      console.error(err.message)
     }
   }
 
 
-  if (error) return alert(error);
+  if (error) return <p>{error}</p>;
   if (loading) return <p>Chargement...</p>;
 
   return (
