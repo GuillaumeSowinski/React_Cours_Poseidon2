@@ -65,7 +65,7 @@ function App() {
 
   const modifyFullProduct = async (id) => {
     try {
-      const response = await fetch(`https://fakestoreapi.com/products/${id}a`, {
+      const response = await fetch(`https://fakestoreapi.com/products/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
